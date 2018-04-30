@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'meteor/vulcan:i18n';
 import classNames from 'classnames';
@@ -48,7 +48,7 @@ const styles = theme => ({
   },
 });
 
-class FormComponent extends PureComponent {
+class FormComponent extends Component {
   constructor(props) {
     super(props);
 

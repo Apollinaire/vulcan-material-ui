@@ -29,7 +29,7 @@ const FormErrors = ({ errors, classes }) => {
           {error.message || (
             <FormattedMessage
               id={error.id}
-              values={{ ...error.properties }}
+              values={{ ...error.properties, ...error.data }}
               defaultMessage={JSON.stringify(error)}
             />
           )}
