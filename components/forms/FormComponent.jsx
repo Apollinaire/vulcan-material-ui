@@ -10,7 +10,7 @@ import merge from 'lodash/merge';
 import withStyles from 'material-ui/styles/withStyles';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
-import { Close } from 'mdi-material-ui';
+import Close from 'mdi-material-ui/Close';
 import { isEmptyValue } from '../../modules/utils.js';
 
 const styles = theme => ({
