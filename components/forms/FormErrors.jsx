@@ -43,7 +43,7 @@ const FormErrors = ({ errors, classes }) => {
       {!!errors.length && (
         <Snackbar
           open={true}
-          className={classNames(classes.root , classes.danger)}
+          className={classNames(classes.root , classes.danger, 'flash-message')}
           message={messageNode}
         />
       )}
