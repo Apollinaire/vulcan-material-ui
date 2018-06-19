@@ -89,11 +89,9 @@ class FormGroup extends PureComponent {
       <div className={classes.root}>
         <a name={anchorName} />
 
-        {name === 'default' ? null : (
           <Typography className={classes.head} variant="subheading">
-            {label}
+            {name === 'default' ? null : label}
           </Typography>
-        )}
 
         <Paper className={classes.paper}>
           {this.renderExtraComponent(startComponent)}
