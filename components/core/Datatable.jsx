@@ -22,6 +22,7 @@ const baseStyles = theme => ({
     position: 'absolute',
     top: '-8px',
     right: 0,
+    zIndex: 1150,
   },
   search: {
     marginBottom: theme.spacing.unit * 8,
