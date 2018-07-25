@@ -37,7 +37,7 @@ const styles = theme => ({
 class FormComponentInner extends PureComponent {
   
   getProperties = () => {
-    return _omit(this.props, 'classes');
+    return _omit(this.props, 'classes', 'nestedInput');
   };
   
   render () {

@@ -7,7 +7,7 @@ import moment from 'moment';
 import IconButton from 'material-ui/IconButton';
 import Checkbox from 'material-ui/Checkbox';
 import EditIcon from 'mdi-material-ui/Pencil';
-
+import Table, { TableBody, TableRow, TableCell } from 'material-ui/Table';
 
 const getLabel = (field, fieldName, collection, intl) => {
   const schema = collection.simpleSchema()._schema;
@@ -106,10 +106,10 @@ export const getFieldValue = (value, typeName) => {
 
 
 const CardItem = ({ label, value, typeName }) =>
-  <tr>
-    <td className="datacard-label"><strong>{label}</strong></td>
-    <td className="datacard-value">{getFieldValue(value, typeName)}</td>
-  </tr>;
+  <TableRow>
+    <TableCell padding="dense">{label}</TableCell>
+    <TableCell padding="dense">{getFieldValue(value, typeName)}</TableCell>
+  </TableRow>;
 
 
 const CardEdit = (props, context) => {
@@ -151,16 +151,16 @@ const Card = ({ className, collection, document, currentUser, fields }, { intl }
   
   return (
     <div className={classNames(className, 'datacard', `datacard-${collection._name}`)}>
-      <table className="table table-bordered" style={{ maxWidth: '100%' }}>
-        <tbody>
+      <Table style={{ maxWidth: '100%' }}>
+        <TableBody>
         {canEdit ? <CardEdit collection={collection} document={document}/> : null}
         {fieldNames.map((fieldName, index) =>
           <CardItem key={index} value={document[fieldName]}
                     typeName={getTypeName(document[fieldName], fieldName, collection)}
                     label={getLabel(document[fieldName], fieldName, collection, intl)}/>
         )}
-        </tbody>
-      </table>
+      </TableBody>
+      </Table>
     </div>
   );
 };

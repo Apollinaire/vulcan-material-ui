@@ -9,6 +9,7 @@ import MuiFormHelper from './MuiFormHelper';
 import Checkbox from 'material-ui/Checkbox';
 import Switch from 'material-ui/Switch';
 import classNames from 'classnames';
+import without from 'lodash/without';
 
 
 const styles = theme => ({
@@ -95,7 +96,9 @@ const MuiCheckboxGroup = createReactClass({
   renderElement: function () {
     const controls = this.props.options.map((checkbox, key) => {
       let value = checkbox.value;
-      let checked = (this.props.value.indexOf(value) !== -1);
+      // give each individual checkbox its own path
+      const checkboxPath = `${this.props.path}.${key}`;
+      let checked = (this.props.value.indexOf(value) !== -1) && (this.props.deletedValues.indexOf(checkboxPath) === -1);
       let disabled = checkbox.disabled || this.props.disabled;
       const Component = this.props.variant === 'switch' ? Switch : Checkbox;
       
@@ -106,7 +109,13 @@ const MuiCheckboxGroup = createReactClass({
             <Component
               inputRef={(c) => this[this.props.name + '-' + value] = c}
               checked={checked}
-              onChange={this.changeCheckbox}
+              onChange={(name, isChecked) => {
+                if (isChecked) {
+                  this.props.updateCurrentValues({ [this.props.path]: [...this.props.value, checkbox.value] });
+                } else {
+                  this.props.updateCurrentValues({ [this.props.path]: without(value, checkbox.value) });
+                }
+              }}
               value={value}
               disabled={disabled}
             />
