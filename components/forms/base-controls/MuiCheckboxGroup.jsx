@@ -10,7 +10,8 @@ import Checkbox from 'material-ui/Checkbox';
 import Switch from 'material-ui/Switch';
 import classNames from 'classnames';
 import without from 'lodash/without';
-
+import uniq from 'lodash/uniq';
+import intersection from 'lodash/intersection';
 
 const styles = theme => ({
   group: {
@@ -94,11 +95,14 @@ const MuiCheckboxGroup = createReactClass({
   },
   
   renderElement: function () {
+    
+    // get rid of duplicate values or any values that are not included in the options provided
+    currentValue = uniq(intersection(this.props.value, this.props.options.map(o => o.value)));
+    
     const controls = this.props.options.map((checkbox, key) => {
       let value = checkbox.value;
       // give each individual checkbox its own path
       const checkboxPath = `${this.props.path}.${key}`;
-      let checked = (this.props.value.indexOf(value) !== -1) && (this.props.deletedValues.indexOf(checkboxPath) === -1);
       let disabled = checkbox.disabled || this.props.disabled;
       const Component = this.props.variant === 'switch' ? Switch : Checkbox;
       
@@ -108,13 +112,10 @@ const MuiCheckboxGroup = createReactClass({
           control={
             <Component
               inputRef={(c) => this[this.props.name + '-' + value] = c}
-              checked={checked}
+              checked={currentValue.includes(checkbox.value)}
               onChange={(name, isChecked) => {
-                if (isChecked) {
-                  this.props.updateCurrentValues({ [this.props.path]: [...this.props.value, checkbox.value] });
-                } else {
-                  this.props.updateCurrentValues({ [this.props.path]: without(value, checkbox.value) });
-                }
+                const newValue = isChecked ? [...currentValue, checkbox.value] : without(currentValue, checkbox.value);
+                this.props.updateCurrentValues({ [this.props.path]: newValue });
               }}
               value={value}
               disabled={disabled}
@@ -146,7 +147,7 @@ const MuiCheckboxGroup = createReactClass({
     }
     
     return (
-      <MuiFormControl{...this.getFormControlProperties()} fakeLabel={true}>
+      <MuiFormControl {...this.getFormControlProperties()} fakeLabel={true}>
         {this.renderElement()}
         <MuiFormHelper {...this.getFormHelperProperties()}/>
       </MuiFormControl>

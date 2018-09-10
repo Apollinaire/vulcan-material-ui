@@ -132,4 +132,4 @@ replaceComponent('IconRemove', IconRemove);
 
 const IconAdd = () => <Plus/>;
 
-replaceComponent('IconAdd', IconAdd);
+replaceComponent('IconAdd', IconAdd, [withStyles, styles]);
