@@ -24,7 +24,7 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit / 2,
     marginTop: theme.spacing.unit * 5,
     marginBottom: theme.spacing.unit,
-    color: theme.palette.primary[500],
+    // color: theme.palette.primary[500],
   },
   collapsible: {
     cursor: 'pointer',
@@ -80,6 +80,7 @@ class FormGroup extends PureComponent {
     return (
       <Typography className={classNames(classes.subheading, collapsible && classes.collapsible)}
                   variant="subheading"
+                  color="primary"
                   onClick={this.toggle}
       >
     
