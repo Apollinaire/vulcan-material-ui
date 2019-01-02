@@ -24,6 +24,7 @@ import './forms/FormGroup';
 import './forms/FormGroupNone';
 import './forms/FormGroupWithLine';
 import './forms/FormNested';
+import './forms/FormNestedArrayLayout';
 import './forms/FormNestedDivider';
 import './forms/FormNestedFoot';
 import './forms/FormNestedHead';
