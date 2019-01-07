@@ -103,6 +103,7 @@ export default {
       'description',
       'clearField',
       'regEx',
+      'allowedValues',
       'mustComplete',
       'renderComponent',
       'formInput',
