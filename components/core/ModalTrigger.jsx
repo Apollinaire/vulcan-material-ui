@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'meteor/vulcan:i18n';
-import { registerComponent } from 'meteor/vulcan:core';
+import { registerComponent, Components } from 'meteor/vulcan:core';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -102,7 +102,9 @@ class ModalTrigger extends PureComponent {
           }
           
           <DialogContent className={classes.dialogContent}>
-            {childrenComponent}
+            <Components.ErrorCatcher>
+              {childrenComponent}
+            </Components.ErrorCatcher>
           </DialogContent>
         
         </Dialog>
