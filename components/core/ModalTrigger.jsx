@@ -7,6 +7,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import HighlightOff from '@material-ui/icons/HighlightOff';
 import classNames from 'classnames';
 
 
@@ -22,19 +24,23 @@ const styles = theme => ({
   dialogContent: {
     paddingTop: '4px',
   },
+  exitButton: {
+    position: 'absolute',
+    top: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+  },
 });
 
-
 class ModalTrigger extends PureComponent {
-  
+
   constructor (props) {
     super(props);
-    
+
     this.state = { modalIsOpen: false };
-    
-    
+
+
   }
-  
+
   componentDidMount() {
     if (this.props.action) {
       this.props.action({
@@ -47,11 +53,11 @@ class ModalTrigger extends PureComponent {
   openModal = () => {
     this.setState({ modalIsOpen: true });
   };
-  
+
   closeModal = () => {
     this.setState({ modalIsOpen: false });
   };
-  
+
   render () {
     const {
       className,
@@ -63,12 +69,14 @@ class ModalTrigger extends PureComponent {
       children,
       classes,
     } = this.props;
-    
+
+console.log('my modal here');
+
     const intl = this.context.intl;
-    
+
     const label = labelId ? intl.formatMessage({ id: labelId }) : this.props.label;
     const title = titleId ? intl.formatMessage({ id: titleId }) : this.props.title;
-    
+
     const triggerComponent = component
       ?
       React.cloneElement(component, { onClick: this.openModal })
@@ -78,37 +86,44 @@ class ModalTrigger extends PureComponent {
         <Button className={classes.button} variant="raised" onClick={this.openModal}>{label}</Button>
         :
         <a className={classes.anchor} href="#" onClick={this.openModal}>{label}</a>;
-    
+
     const childrenComponent = typeof children.type === 'function' ?
       React.cloneElement(children, { closeModal: this.closeModal }) :
       children;
-    
+
     return (
       <span className={classNames('modal-trigger', classes.root, className)}>
-        
+
         {triggerComponent}
-        
-        <Dialog className={classNames(dialogClassName)}
-                open={this.state.modalIsOpen}
-                onClose={this.closeModal}
-                fullWidth={true}
-                classes={{ paper: classes.paper }}
-        >
-          
-          {
-            title &&
-  
-            <DialogTitle className={classes.dialogTitle}>{title}</DialogTitle>
-          }
-          
-          <DialogContent className={classes.dialogContent}>
-            <Components.ErrorCatcher>
-              {childrenComponent}
-            </Components.ErrorCatcher>
-          </DialogContent>
-        
-        </Dialog>
-      
+        <Grid container>
+          <Dialog className={classNames(dialogClassName)}
+                  open={this.state.modalIsOpen}
+                  onClose={this.closeModal}
+                  fullWidth={true}
+                  classes={{ paper: classes.paper }}
+          >
+          <Grid container item xs={12} justify='flex-end'>
+            <Button mini={true} onClick={this.closeModal}>
+              <HighlightOff color='error'/>
+            </Button>
+          </Grid>
+
+            {
+              title &&
+
+              <DialogTitle className={classes.dialogTitle}>{title}</DialogTitle>
+            }
+
+            <DialogContent className={classes.dialogContent}>
+              <Components.ErrorCatcher>
+                {childrenComponent}
+              </Components.ErrorCatcher>
+            </DialogContent>
+
+          </Dialog>
+        </Grid>
+
+
       </span>
     );
   }
