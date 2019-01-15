@@ -4,11 +4,12 @@ import { intlShape } from 'meteor/vulcan:i18n';
 import { registerComponent, Components } from 'meteor/vulcan:core';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import HighlightOff from '@material-ui/icons/HighlightOff';
+import Tooltip from '@material-ui/core/Tooltip';
+import Close from 'mdi-material-ui/Close';
+
 import classNames from 'classnames';
 
 
@@ -20,14 +21,16 @@ const styles = theme => ({
   anchor: {},
   dialog: {},
   paper: {},
-  dialogTitle: {},
+  dialogTitle: {
+    padding: theme.spacing.unit * 4,
+  },
   dialogContent: {
     paddingTop: '4px',
   },
-  exitButton: {
+  closeButton: {
     position: 'absolute',
-    top: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
+    right: theme.spacing.unit,
+    top: theme.spacing.unit,
   },
 });
 
@@ -35,10 +38,7 @@ class ModalTrigger extends PureComponent {
 
   constructor (props) {
     super(props);
-
     this.state = { modalIsOpen: false };
-
-
   }
 
   componentDidMount() {
@@ -70,13 +70,10 @@ class ModalTrigger extends PureComponent {
       classes,
     } = this.props;
 
-console.log('my modal here');
-
     const intl = this.context.intl;
 
     const label = labelId ? intl.formatMessage({ id: labelId }) : this.props.label;
     const title = titleId ? intl.formatMessage({ id: titleId }) : this.props.title;
-
     const triggerComponent = component
       ?
       React.cloneElement(component, { onClick: this.openModal })
@@ -95,34 +92,29 @@ console.log('my modal here');
       <span className={classNames('modal-trigger', classes.root, className)}>
 
         {triggerComponent}
-        <Grid container>
           <Dialog className={classNames(dialogClassName)}
                   open={this.state.modalIsOpen}
                   onClose={this.closeModal}
                   fullWidth={true}
                   classes={{ paper: classes.paper }}
           >
-          <Grid container item xs={12} justify='flex-end'>
-            <Button mini={true} onClick={this.closeModal}>
-              <HighlightOff color='error'/>
-            </Button>
-          </Grid>
+            <DialogTitle className={classes.dialogTitle}>
+              {title}
 
-            {
-              title &&
+              <Components.Button iconButton aria-label="Close" className={classes.closeButton} onClick={this.closeModal}>
+                <Tooltip title={intl.formatMessage({ id: 'modal.close' })}>
+                  <Close />
+                </Tooltip>
+             </Components.Button>
 
-              <DialogTitle className={classes.dialogTitle}>{title}</DialogTitle>
-            }
+            </DialogTitle>
 
             <DialogContent className={classes.dialogContent}>
               <Components.ErrorCatcher>
                 {childrenComponent}
               </Components.ErrorCatcher>
             </DialogContent>
-
           </Dialog>
-        </Grid>
-
 
       </span>
     );
